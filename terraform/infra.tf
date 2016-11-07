@@ -152,6 +152,23 @@ resource "aws_route_table_association" "public_subnet_c_rt_assoc" {
     route_table_id = "${aws_route_table.public_routing_table.id}"
 }
 
+# Security Group
+resource "aws_security_group" "allow_SSH" {
+  name = "allow_all"
+  description = "Allow current public IP address to an Instance"
+
+  ingress {
+      from_port = 22
+      to_port = 22
+      protocol = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags {
+    Name = "allow_SSH"
+  }
+}
+
 # EC2 Instance 
 resource "aws_instance" "AMI_Instance" {
     ami = "ami-b04e92d0"
